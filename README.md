@@ -43,7 +43,7 @@ To read websocket statistic there is GET request should be set up at "location" 
 
 ## Example of configuration
 
-See [nginx sample configuraion](docker/nginx.conf).
+See [nginx sample configuraion](docker/etc/nginx/nginx.conf).
 
 ```code
 
