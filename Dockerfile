@@ -1,4 +1,4 @@
-ARG VERSION=alpine
+ARG VERSION=1.21-alpine
 FROM nginx:${VERSION}
 
 # nginx:alpine contains NGINX_VERSION environment variable, like so:
@@ -96,6 +96,10 @@ RUN cd nginx-$NGINX_VERSION && ./configure \
 #   chown -R nginx:nginx /var/run/nginx.pid
 ## switch to non-root user
 # USER nginx
+
+# Symlink the logs to stdout and stderr
+RUN ln -sf /dev/stdout /var/log/nginx/access.log
+RUN ln -sf /dev/stderr /var/log/nginx/error.log
 
 EXPOSE 80
 STOPSIGNAL SIGTERM
