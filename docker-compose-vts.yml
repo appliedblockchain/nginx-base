@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  nginx:
+    image: appliedblockchain/strading-nginx-vts-build
+    build:
+      args:
+        VERSION: 1.21-alpine
+      context: .
+      dockerfile: Dockerfile-vts
+    ports:
+      - 80:80
