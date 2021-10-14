@@ -1,6 +1,24 @@
-# NGINX module websocket connection and traffic statistics
+# NGINX image with modules websocket connection and traffic statistics
 
-Nginx module developed for logging and displaying statistic of websocket proxy connections traffic, limiting number of websocket connections and closing long lasting websocket connections.
+> NGINX + ngx_http_websocket_stat_module + VTS module + Prometheus Exporter
+
+This project provides a clean image Alpine based of Nginx with the VTS module (https://github.com/vozlt/nginx-module-vts) and the Prometheus exporter (https://github.com/hnlq715/nginx-vts-exporter).
+
+Monitoring Nginx mainly uses the following modules:
+
+1. Nginx module VTS: monitoring module of nginx, which can provide data output in JSON format.
+
+2. Nginx VTS exporter: it is mainly used to collect monitoring data of nginx and provide monitoring interface for Prometheus. The default port number is 9913.
+
+3. Prometheus: monitor the Nginx data provided by Nginx VTS exporter and store it in the timing database. You can use PromQL to query and aggregate the timing data
+
+4. ngx_http_websocket_stat_module: Nginx module developed for logging and displaying statistic of websocket proxy connections traffic, limiting number of websocket connections and closing long lasting websocket connections.
+
+## Build
+
+```sh
+DOCKER_BUILDKIT=1 docker build -f Dockerfile-vts -t nginx-base:v${VERSION} .
+```
 
 ## Installation
 
@@ -43,7 +61,7 @@ To read websocket statistic there is GET request should be set up at "location" 
 
 ## Example of configuration
 
-See [nginx sample configuraion](docker/etc/nginx/nginx.conf).
+See [nginx sample configuraion](docker/etc/nginx/nginx-vts.conf) .
 
 ```code
 
