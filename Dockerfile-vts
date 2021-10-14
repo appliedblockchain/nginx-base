@@ -1,5 +1,5 @@
 ARG VERSION=1.21-alpine
-FROM nginx:${VERSION} AS temp
+FROM nginx:${VERSION}
 
 # https://github.com/vozlt/nginx-module-vts/releases
 ENV VTS_VERSION 0.1.18
@@ -21,7 +21,6 @@ RUN echo "Downloading packages" \
   && rm nginx.tar.gz nginx-modules-vts.tar.gz nginx-vts-exporter.tar.gz \
   && cp /usr/src/nginx-vts-exporter-$VTS_EXPORTER_VERSION.linux-amd64/nginx-vts-exporter /usr/bin/nginx-vts-exporter
 
-COPY src /usr/src/ngx_http_websocket_stat_module
 # For latest build deps, see https://github.com/nginxinc/docker-nginx/blob/master/mainline/alpine/Dockerfile
 # add compilation env, build required C based gems
 RUN apk add --no-cache --virtual .build-deps \
@@ -43,8 +42,11 @@ RUN apk add --no-cache --virtual .build-deps \
     libressl-dev \
     libressl \
     libbz2 \
-    ca-certificates \
-  && cd /usr/src/nginx-$NGINX_VERSION \
+    ca-certificates
+
+COPY src /usr/src/ngx_http_websocket_stat_module
+
+RUN cd /usr/src/nginx-$NGINX_VERSION \
   && ./configure \
     --prefix=/usr/share/nginx \
     --sbin-path=/usr/sbin/nginx \
@@ -104,7 +106,6 @@ RUN apk add --no-cache --virtual .build-deps \
     | sort -u \
   )" \
   && apk add --no-cache --virtual .nginx-rundeps $runDeps \
-  && apk del .build-deps \
   && apk del .gettext \
   && mv /tmp/envsubst /usr/local/bin/ \
   \

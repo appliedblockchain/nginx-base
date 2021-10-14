@@ -74,7 +74,7 @@ RUN cd nginx-$NGINX_VERSION && ./configure \
   && make install \
   && cd .. && rm -rf nginx-$NGINX_VERSION \
   && if ! [ -d /var/cache/nginx ]; then mkdir /var/cache/nginx; fi \
-  && rm /etc/nginx/*.default
+  && rm /etc/nginx/conf.d/default*
 
 ## Reuse same cli arguments as the nginx:alpine image used to build
 # RUN CONFARGS=$(nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p') && \
